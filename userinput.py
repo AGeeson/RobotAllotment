@@ -1,69 +1,67 @@
-from ppip_function import ppip 
-
-class Plant:
-    def __init__(self, name, light_intensity, temperature, distance):
-        self.name = name
-        self.light_intensity = 0
-        self.temperature = 0
-        self.distance = 0
-        self.depth = 0
-        self.x=0
-        self.y=0
-
-class Carrot(Plant):
-    def __init__(self,x,y):
-        light_intensity = 60
-        temperature = 10
-        distance = 2.5
-        self.x = 0
-        self.y = 0
+from ppip_function import pip, plants, ppip
+from tkinter import Tk, Canvas, Frame, BOTH
 
 
-plants=[]
-def ppip(length_p, width_p, d):
-    global plants
-    i=j=k=l=0
-    while True:
-        if j == 0 and i+(2*d) > length_p:
-            break 
-        if j > 0 and i + (2*d) > length_p:
-            break
-        if j == 0:
-            k=l=0
-            i+= 2*d
-            j+=1
-            while True:
-                if l == 0 and k+(2*d) > width_p:
-                    break
-                if l > 0 and k+(2*d)> width_p:
-                    break
-                if l == 0:
-                    k+= 2*d
-                    l+=1
-                else:
-                    k+=d
-                    l+=1
-                plants.append(Carrot(x=i,y=k))
-        else:
-            k=l=0
-            i+=d
-            j+=1
-            while True:
-                if l == 0 and k+(2*d) > width_p:
-                    break
-                if l > 0 and k+(2*d)> width_p:
-                    break
-                if l == 0:
-                    k+= 2*d
-                    l+=1
-                else:
-                    k+=d
-                    l+=1
-                plants.append(Carrot(x=i,y=k))
-    print(plants)
-
-
-ppip(100,10,2)
-print("What would you like to grow?")
+vegetables = [
+    {"carrot": 1},
+    {"potato": 2},
+    {"cabbagge":3},
+    {"rosemary":4}
+]
+picked=[]
+print("what would you like to grow? \n1. Potato \n2. Cabbage \n3. Carrot \n4. Rosemary \nEnter the number of one of them separated by commas")
 userinput=input()
+x=userinput.split(",")
+print(x)
+for r in x:
+    s=int(r)
+    picked.append(vegetables[s])
+print("What are the dimensions of your allotment. Format: x,y")
+widthinput=input("width:")
+print (widthinput)
+width = float(widthinput)
+"""if widthinput != type(float) or type(int):
+    print("error: value must be integer or float")"""
+heightinput=input("height:")
+height = float(heightinput)
+"""if heightinput != type(float) or type(int):
+    print("error: value must be integer or float")"""
+# for key in picked:
+  #  minimum_amount = input("Is there a maximum number of " + key )
+
+ppip(height,width,2.5)
+
+bounds=[0,width,height,0]
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+
+    def initUI(self):
+
+        self.master.title("Colours")
+        self.pack(fill=BOTH,expand=1)
+
+        canvas = Canvas(self)
+        canvas.create_rectangle(0,5*width,5*height,0,
+        outline="#fb0", fill="#fb0")
+        for plant in plants:
+            canvas.create_bitmap(5*plant["x"],5*plant["y"],bitmap="warning")
+        canvas.pack(fill=BOTH, expand=1)
+        
+
+def main():
+    root = Tk()
+    ex = Example()
+    root.mainloop()
+
+if __name__ == '__main__':
+    main()
+
+
+
 
